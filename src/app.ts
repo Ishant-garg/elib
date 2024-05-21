@@ -1,17 +1,18 @@
 import express from 'express'
 import createHttpError from 'http-errors';
 import { globalError } from './middlewares/globalErrorHandler';
+import userRouter from './user/userRouter';
 
  
 const app = express();
-
+app.use(express.json());
 
 app.get('/' , (req , res) =>{
-    const error =  createHttpError(505 , "hi iam error");
-    throw error;
-    res.send('hiii')
+
+    res.send('hiii');
 })
- 
-app.use(globalError)
+
+app.use('/api/users',userRouter);
+app.use(globalError);
 
 export default app;
