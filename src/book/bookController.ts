@@ -34,6 +34,7 @@ import path from 'path';
 import fs from 'fs';
 import { Request, Response } from "express";
 import bookModel from "./bookModel";
+import { AuthRequest } from "../../config/authenticate";
 // Configure Cloudinary
 
 
@@ -60,9 +61,11 @@ export const createBook = async (req : Request, res : Response) => {
         filename_override : bookPdfname
     });
 
+    const _req = req as AuthRequest
+
     const newBook = await bookModel.create({
         title,
-        author : "664c759291eafb0098df02ff",
+        author : _req.userId,
         genre,
         file : fileUpload.secure_url,
         coverImage : coverImageUpload.secure_url
